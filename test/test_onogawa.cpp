@@ -1,6 +1,56 @@
 #include "onogawa/onogawa.hpp"
 #include <gtest/gtest.h>
 
+class CompassFixture : public ::testing::Test {
+protected:
+  double x;
+  double y;
+  onogawa::Compass compass;
+
+  CompassFixture() : x(1.0), y(0.0), compass(x, y) {}
+};
+
+TEST_F(CompassFixture, CheckX) { ASSERT_EQ(compass.x, x); }
+TEST_F(CompassFixture, CheckY) { ASSERT_EQ(compass.y, y); }
+
+class CompassXCompassY : public ::testing::Test {
+protected:
+  onogawa::Compass a;
+  onogawa::Compass b;
+  onogawa::Compass c;
+
+  CompassXCompassY()
+      : a(onogawa::Compass::ex()), b(onogawa::Compass::ey()), c(a * b) {}
+};
+
+TEST_F(CompassXCompassY, CheckX) { ASSERT_NEAR(c.x, b.x, 1e-14); }
+TEST_F(CompassXCompassY, CheckY) { ASSERT_NEAR(c.y, b.y, 1e-14); }
+
+class CompassNegXCompassY : public ::testing::Test {
+protected:
+  onogawa::Compass a;
+  onogawa::Compass b;
+  onogawa::Compass c;
+
+  CompassNegXCompassY() : a(-1.0, 0.0), b(onogawa::Compass::ey()), c(a * b) {}
+};
+
+TEST_F(CompassNegXCompassY, CheckX) { ASSERT_NEAR(c.x, b.x, 1e-14); }
+TEST_F(CompassNegXCompassY, CheckY) { ASSERT_NEAR(c.y, -b.y, 1e-14); }
+
+class CompassXPointX : public ::testing::Test {
+protected:
+  onogawa::Compass c;
+  onogawa::Point2 p;
+  onogawa::Point2 result;
+
+  CompassXPointX()
+      : c(onogawa::Compass::ex()), p(onogawa::Point2::ex()), result(c * p) {}
+};
+
+TEST_F(CompassXPointX, CheckX) { ASSERT_NEAR(result.x, p.x, 1e-14); }
+TEST_F(CompassXPointX, CheckY) { ASSERT_NEAR(result.y, p.y, 1e-14); }
+
 class Point2Fixture : public ::testing::Test {
 protected:
   double x;
@@ -21,6 +71,19 @@ TEST_F(Point2Fixture, UpdateY) {
   point.y = new_y;
   ASSERT_EQ(point.y, new_y);
 }
+
+class Point2PlusPoint2 : public ::testing::Test {
+protected:
+  onogawa::Point2 a;
+  onogawa::Point2 b;
+  onogawa::Point2 c;
+
+  Point2PlusPoint2()
+      : a(onogawa::Point2::ex()), b(onogawa::Point2::ey()), c(a + b) {}
+};
+
+TEST_F(Point2PlusPoint2, CheckX) { ASSERT_NEAR(c.x, a.x + b.x, 1e-14); }
+TEST_F(Point2PlusPoint2, CheckY) { ASSERT_NEAR(c.y, a.y + b.y, 1e-14); }
 
 class Point3Fixture : public ::testing::Test {
 protected:

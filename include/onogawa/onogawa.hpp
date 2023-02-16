@@ -2,20 +2,51 @@
 
 namespace onogawa {
 
-struct Complex {
-  double real;
-  double imaginary;
+struct Compass {
+  double x;
+  double y;
 
-  constexpr Complex(double real, double imaginary)
-      : real(real), imaginary(imaginary) {}
+  constexpr Compass(double x, double y) : x(x), y(y) {}
+
+  constexpr static Compass ex() { return Compass(1.0, 0.0); }
+  constexpr static Compass ey() { return Compass(0.0, 1.0); }
 };
+
+constexpr Compass operator*(const Compass &a, const Compass &b) {
+  return Compass(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x);
+}
 
 struct Point2 {
   double x;
   double y;
 
   constexpr Point2(double x, double y) : x(x), y(y) {}
+
+  constexpr static Point2 ex() { return Point2(1.0, 0.0); }
+  constexpr static Point2 ey() { return Point2(0.0, 1.0); }
 };
+
+constexpr Point2 operator+(const Point2 &a, const Point2 &b) {
+  return Point2(a.x + b.x, a.y + b.y);
+}
+
+constexpr Point2 operator*(const Compass &compass, const Point2 &point) {
+  return Point2(compass.x * point.x - compass.y * point.y,
+                compass.x * point.y - compass.y * point.x);
+}
+
+struct Pose2 {
+  Compass orientation;
+  Point2 position;
+
+  constexpr Pose2(const Compass &orientation, const Point2 &position)
+      : orientation(orientation), position(position) {}
+};
+
+constexpr Pose2 operator*(const Pose2 &a, const Pose2 &b) {
+  return Pose2(a.orientation * b.orientation,
+               a.orientation * b.position + a.position);
+}
 
 struct Quaternion {
   double w;

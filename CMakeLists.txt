@@ -28,7 +28,7 @@ target_link_libraries(onogawa
 
 option(BUILD_Onogawa_TESTS "Build Onogawa Tests" OFF)
 
-if(BUILD_TESTS)
+if(BUILD_Onogawa_TESTS)
   find_package(GTest REQUIRED)
 
   add_executable(test_onogawa

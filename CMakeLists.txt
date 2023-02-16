@@ -5,15 +5,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 
-include(FetchContent)
-
-FetchContent_Declare(
-  Sabai
-  GIT_REPOSITORY git@github.com:taylorpool/sabai.git
-  GIT_TAG constexpr
-)
-FetchContent_MakeAvailable(Sabai)
-
 add_library(onogawa
   src/onogawa.cpp
 )
@@ -23,7 +14,6 @@ target_include_directories(onogawa
 )
 target_link_libraries(onogawa
   PUBLIC
-  sabai
 )
 
 option(BUILD_Onogawa_TESTS "Build Onogawa Tests" OFF)

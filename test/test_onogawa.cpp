@@ -1,8 +1,6 @@
 #include "onogawa/onogawa.hpp"
 #include <gtest/gtest.h>
 
-TEST(Hello, World) { ASSERT_TRUE(true); }
-
 class Point2Fixture : public ::testing::Test {
 protected:
   double x;
@@ -24,390 +22,202 @@ TEST_F(Point2Fixture, UpdateY) {
   ASSERT_EQ(point.y(), new_y);
 }
 
-class QuaternionFixture : public ::testing::Test {
+class Point3Fixture : public ::testing::Test {
 protected:
-  double w;
   double x;
   double y;
   double z;
-  onogawa::Quaternion quat;
-  QuaternionFixture()
-      : w(1.0), x(0.0), y(0.0), z(0.0), quat(1.0, 0.0, 0.0, 0.0) {}
+  double new_x;
+  double new_y;
+  double new_z;
+
+  onogawa::Point3 point;
+
+  Point3Fixture()
+      : x(1.0), y(2.0), z(3.0), new_x(4.0), new_y(5.0), new_z(6.0),
+        point(x, y, z) {}
 };
 
-TEST_F(QuaternionFixture, CheckW) { ASSERT_EQ(quat.w(), w); }
-TEST_F(QuaternionFixture, CheckX) { ASSERT_EQ(quat.x(), x); }
-TEST_F(QuaternionFixture, CheckY) { ASSERT_EQ(quat.y(), y); }
-TEST_F(QuaternionFixture, CheckZ) { ASSERT_EQ(quat.z(), z); }
+TEST_F(Point3Fixture, CheckX) { ASSERT_EQ(point.x(), x); }
+TEST_F(Point3Fixture, CheckY) { ASSERT_EQ(point.y(), y); }
+TEST_F(Point3Fixture, CheckZ) { ASSERT_EQ(point.z(), z); }
+TEST_F(Point3Fixture, UpdateX) {
+  point.x() = new_x;
+  ASSERT_EQ(point.x(), new_x);
+}
+TEST_F(Point3Fixture, UpdateY) {
+  point.y() = new_y;
+  ASSERT_EQ(point.y(), new_y);
+}
+TEST_F(Point3Fixture, UpdateZ) {
+  point.z() = new_z;
+  ASSERT_EQ(point.z(), new_z);
+}
 
-class QuaternionMultiplicationEwEw_Ew : public ::testing::Test {
+class RwexFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEwEw_Ew()
-      : ew(onogawa::Quaternion::ew()), c(ew * ew) {}
+  onogawa::Point3 ex;
+  onogawa::Quaternion Rw;
+  onogawa::Point3 ex_prime;
+
+  RwexFixture()
+      : ex(1.0, 0.0, 0.0), Rw(1.0, 0.0, 0.0, 0.0), ex_prime(Rw * ex) {}
 };
 
-TEST_F(QuaternionMultiplicationEwEw_Ew, CheckW) {
-  ASSERT_NEAR(c.w(), ew.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEw_Ew, CheckX) {
-  ASSERT_NEAR(c.x(), ew.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEw_Ew, CheckY) {
-  ASSERT_NEAR(c.y(), ew.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEw_Ew, CheckZ) {
-  ASSERT_NEAR(c.z(), ew.z(), 1e-14);
-}
+TEST_F(RwexFixture, CheckX) { ASSERT_NEAR(ex_prime.x(), ex.x(), 1e-14); }
+TEST_F(RwexFixture, CheckY) { ASSERT_NEAR(ex_prime.y(), ex.y(), 1e-14); }
+TEST_F(RwexFixture, CheckZ) { ASSERT_NEAR(ex_prime.z(), ex.z(), 1e-14); }
 
-class QuaternionMultiplicationEwEx_Ex : public ::testing::Test {
+class RweyFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ex;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEwEx_Ex()
-      : ew(onogawa::Quaternion::ew()), ex(onogawa::Quaternion::ex()),
-        c(ew * ex) {}
+  onogawa::Point3 ey;
+  onogawa::Quaternion Rw;
+  onogawa::Point3 ey_prime;
+
+  RweyFixture()
+      : ey(0.0, 1.0, 0.0), Rw(1.0, 0.0, 0.0, 0.0), ey_prime(Rw * ey) {}
 };
 
-TEST_F(QuaternionMultiplicationEwEx_Ex, CheckW) {
-  ASSERT_NEAR(c.w(), ex.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEx_Ex, CheckX) {
-  ASSERT_NEAR(c.x(), ex.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEx_Ex, CheckY) {
-  ASSERT_NEAR(c.y(), ex.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEx_Ex, CheckZ) {
-  ASSERT_NEAR(c.z(), ex.z(), 1e-14);
-}
+TEST_F(RweyFixture, CheckX) { ASSERT_NEAR(ey_prime.x(), ey.x(), 1e-14); }
+TEST_F(RweyFixture, CheckY) { ASSERT_NEAR(ey_prime.y(), ey.y(), 1e-14); }
+TEST_F(RweyFixture, CheckZ) { ASSERT_NEAR(ey_prime.z(), ey.z(), 1e-14); }
 
-class QuaternionMultiplicationEwEy_Ey : public ::testing::Test {
+class RwezFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEwEy_Ey()
-      : ew(onogawa::Quaternion::ew()), ey(onogawa::Quaternion::ey()),
-        c(ew * ey) {}
+  onogawa::Point3 ez;
+  onogawa::Quaternion Rw;
+  onogawa::Point3 ez_prime;
+
+  RwezFixture()
+      : ez(0.0, 0.0, 1.0), Rw(1.0, 0.0, 0.0, 0.0), ez_prime(Rw * ez) {}
 };
 
-TEST_F(QuaternionMultiplicationEwEy_Ey, CheckW) {
-  ASSERT_NEAR(c.w(), ey.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEy_Ey, CheckX) {
-  ASSERT_NEAR(c.x(), ey.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEy_Ey, CheckY) {
-  ASSERT_NEAR(c.y(), ey.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEy_Ey, CheckZ) {
-  ASSERT_NEAR(c.z(), ey.z(), 1e-14);
-}
+TEST_F(RwezFixture, CheckX) { ASSERT_NEAR(ez_prime.x(), ez.x(), 1e-14); }
+TEST_F(RwezFixture, CheckY) { ASSERT_NEAR(ez_prime.y(), ez.y(), 1e-14); }
+TEST_F(RwezFixture, CheckZ) { ASSERT_NEAR(ez_prime.z(), ez.z(), 1e-14); }
 
-class QuaternionMultiplicationEwEz_Ez : public ::testing::Test {
+class RxexFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEwEz_Ez()
-      : ew(onogawa::Quaternion::ew()), ez(onogawa::Quaternion::ez()),
-        c(ew * ez) {}
+  onogawa::Point3 ex;
+  onogawa::Quaternion Rx;
+  onogawa::Point3 ex_prime;
+
+  RxexFixture()
+      : ex(1.0, 0.0, 0.0), Rx(0.0, 1.0, 0.0, 0.0), ex_prime(Rx * ex) {}
 };
 
-TEST_F(QuaternionMultiplicationEwEz_Ez, CheckW) {
-  ASSERT_NEAR(c.w(), ez.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEz_Ez, CheckX) {
-  ASSERT_NEAR(c.x(), ez.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEz_Ez, CheckY) {
-  ASSERT_NEAR(c.y(), ez.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEwEz_Ez, CheckZ) {
-  ASSERT_NEAR(c.z(), ez.z(), 1e-14);
-}
+TEST_F(RxexFixture, CheckX) { ASSERT_NEAR(ex_prime.x(), ex.x(), 1e-14); }
+TEST_F(RxexFixture, CheckY) { ASSERT_NEAR(ex_prime.y(), ex.y(), 1e-14); }
+TEST_F(RxexFixture, CheckZ) { ASSERT_NEAR(ex_prime.z(), ex.z(), 1e-14); }
 
-class QuaternionMultiplicationExEw_Ex : public ::testing::Test {
+class RxeyFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ew;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationExEw_Ex()
-      : ex(onogawa::Quaternion::ex()), ew(onogawa::Quaternion::ew()),
-        c(ex * ew) {}
+  onogawa::Point3 ey;
+  onogawa::Quaternion Rx;
+  onogawa::Point3 ey_prime;
+
+  RxeyFixture()
+      : ey(0.0, 1.0, 0.0), Rx(0.0, 1.0, 0.0, 0.0), ey_prime(Rx * ey) {}
 };
 
-TEST_F(QuaternionMultiplicationExEw_Ex, CheckW) {
-  ASSERT_NEAR(c.w(), ex.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEw_Ex, CheckX) {
-  ASSERT_NEAR(c.x(), ex.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEw_Ex, CheckY) {
-  ASSERT_NEAR(c.y(), ex.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEw_Ex, CheckZ) {
-  ASSERT_NEAR(c.z(), ex.z(), 1e-14);
-}
+TEST_F(RxeyFixture, CheckX) { ASSERT_NEAR(ey_prime.x(), ey.x(), 1e-14); }
+TEST_F(RxeyFixture, CheckY) { ASSERT_NEAR(ey_prime.y(), -ey.y(), 1e-14); }
+TEST_F(RxeyFixture, CheckZ) { ASSERT_NEAR(ey_prime.z(), ey.z(), 1e-14); }
 
-class QuaternionMultiplicationExEx_NegEw : public ::testing::Test {
+class RxezFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ex;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationExEx_NegEw()
-      : ew(onogawa::Quaternion::ew()), ex(onogawa::Quaternion::ex()),
-        c(ex * ex) {}
+  onogawa::Point3 ez;
+  onogawa::Quaternion Rx;
+  onogawa::Point3 ez_prime;
+
+  RxezFixture()
+      : ez(0.0, 0.0, 1.0), Rx(0.0, 1.0, 0.0, 0.0), ez_prime(Rx * ez) {}
 };
 
-TEST_F(QuaternionMultiplicationExEx_NegEw, CheckW) {
-  ASSERT_NEAR(c.w(), -ew.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEx_NegEw, CheckX) {
-  ASSERT_NEAR(c.x(), -ew.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEx_NegEw, CheckY) {
-  ASSERT_NEAR(c.y(), -ew.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEx_NegEw, CheckZ) {
-  ASSERT_NEAR(c.z(), -ew.z(), 1e-14);
-}
+TEST_F(RxezFixture, CheckX) { ASSERT_NEAR(ez_prime.x(), ez.x(), 1e-14); }
+TEST_F(RxezFixture, CheckY) { ASSERT_NEAR(ez_prime.y(), ez.y(), 1e-14); }
+TEST_F(RxezFixture, CheckZ) { ASSERT_NEAR(ez_prime.z(), -ez.z(), 1e-14); }
 
-class QuaternionMultiplicationExEy_Ez : public ::testing::Test {
+class RyexFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationExEy_Ez()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ex * ey) {}
+  onogawa::Point3 ex;
+  onogawa::Quaternion Ry;
+  onogawa::Point3 ex_prime;
+
+  RyexFixture()
+      : ex(1.0, 0.0, 0.0), Ry(0.0, 0.0, 1.0, 0.0), ex_prime(Ry * ex) {}
 };
 
-TEST_F(QuaternionMultiplicationExEy_Ez, CheckW) {
-  ASSERT_NEAR(c.w(), ez.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEy_Ez, CheckX) {
-  ASSERT_NEAR(c.x(), ez.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEy_Ez, CheckY) {
-  ASSERT_NEAR(c.y(), ez.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEy_Ez, CheckZ) {
-  ASSERT_NEAR(c.z(), ez.z(), 1e-14);
-}
+TEST_F(RyexFixture, CheckX) { ASSERT_NEAR(ex_prime.x(), -ex.x(), 1e-14); }
+TEST_F(RyexFixture, CheckY) { ASSERT_NEAR(ex_prime.y(), ex.y(), 1e-14); }
+TEST_F(RyexFixture, CheckZ) { ASSERT_NEAR(ex_prime.z(), ex.z(), 1e-14); }
 
-class QuaternionMultiplicationExEz_NegEy : public ::testing::Test {
+class RyeyFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationExEz_NegEy()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ex * ez) {}
+  onogawa::Point3 ey;
+  onogawa::Quaternion Ry;
+  onogawa::Point3 ey_prime;
+
+  RyeyFixture()
+      : ey(0.0, 1.0, 0.0), Ry(0.0, 0.0, 1.0, 0.0), ey_prime(Ry * ey) {}
 };
 
-TEST_F(QuaternionMultiplicationExEz_NegEy, CheckW) {
-  ASSERT_NEAR(c.w(), -ey.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEz_NegEy, CheckX) {
-  ASSERT_NEAR(c.x(), -ey.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEz_NegEy, CheckY) {
-  ASSERT_NEAR(c.y(), -ey.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationExEz_NegEy, CheckZ) {
-  ASSERT_NEAR(c.z(), -ey.z(), 1e-14);
-}
+TEST_F(RyeyFixture, CheckX) { ASSERT_NEAR(ey_prime.x(), ey.x(), 1e-14); }
+TEST_F(RyeyFixture, CheckY) { ASSERT_NEAR(ey_prime.y(), ey.y(), 1e-14); }
+TEST_F(RyeyFixture, CheckZ) { ASSERT_NEAR(ey_prime.z(), ey.z(), 1e-14); }
 
-class QuaternionMultiplicationEyEw_Ey : public ::testing::Test {
+class RyezFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEyEw_Ey()
-      : ew(onogawa::Quaternion::ew()), ey(onogawa::Quaternion::ey()),
-        c(ey * ew) {}
+  onogawa::Point3 ez;
+  onogawa::Quaternion Ry;
+  onogawa::Point3 ez_prime;
+
+  RyezFixture()
+      : ez(0.0, 0.0, 1.0), Ry(0.0, 0.0, 1.0, 0.0), ez_prime(Ry * ez) {}
 };
 
-TEST_F(QuaternionMultiplicationEyEw_Ey, CheckW) {
-  ASSERT_NEAR(c.w(), ey.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEw_Ey, CheckX) {
-  ASSERT_NEAR(c.x(), ey.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEw_Ey, CheckY) {
-  ASSERT_NEAR(c.y(), ey.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEw_Ey, CheckZ) {
-  ASSERT_NEAR(c.z(), ey.z(), 1e-14);
-}
+TEST_F(RyezFixture, CheckX) { ASSERT_NEAR(ez_prime.x(), ez.x(), 1e-14); }
+TEST_F(RyezFixture, CheckY) { ASSERT_NEAR(ez_prime.y(), ez.y(), 1e-14); }
+TEST_F(RyezFixture, CheckZ) { ASSERT_NEAR(ez_prime.z(), -ez.z(), 1e-14); }
 
-class QuaternionMultiplicationEyEx_NegEz : public ::testing::Test {
+class RzexFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEyEx_NegEz()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ey * ex) {}
+  onogawa::Point3 ex;
+  onogawa::Quaternion Rz;
+  onogawa::Point3 ex_prime;
+
+  RzexFixture()
+      : ex(1.0, 0.0, 0.0), Rz(0.0, 0.0, 0.0, 1.0), ex_prime(Rz * ex) {}
 };
 
-TEST_F(QuaternionMultiplicationEyEx_NegEz, CheckW) {
-  ASSERT_NEAR(c.w(), -ez.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEx_NegEz, CheckX) {
-  ASSERT_NEAR(c.x(), -ez.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEx_NegEz, CheckY) {
-  ASSERT_NEAR(c.y(), -ez.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEx_NegEz, CheckZ) {
-  ASSERT_NEAR(c.z(), -ez.z(), 1e-14);
-}
+TEST_F(RzexFixture, CheckX) { ASSERT_NEAR(ex_prime.x(), -ex.x(), 1e-14); }
+TEST_F(RzexFixture, CheckY) { ASSERT_NEAR(ex_prime.y(), ex.y(), 1e-14); }
+TEST_F(RzexFixture, CheckZ) { ASSERT_NEAR(ex_prime.z(), ex.z(), 1e-14); }
 
-class QuaternionMultiplicationEyEy_NegEw : public ::testing::Test {
+class RzeyFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEyEy_NegEw()
-      : ew(onogawa::Quaternion::ew()), ey(onogawa::Quaternion::ey()),
-        c(ey * ey) {}
+  onogawa::Point3 ey;
+  onogawa::Quaternion Rz;
+  onogawa::Point3 ey_prime;
+
+  RzeyFixture()
+      : ey(0.0, 1.0, 0.0), Rz(0.0, 0.0, 0.0, 1.0), ey_prime(Rz * ey) {}
 };
 
-TEST_F(QuaternionMultiplicationEyEy_NegEw, CheckW) {
-  ASSERT_NEAR(c.w(), -ew.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEy_NegEw, CheckX) {
-  ASSERT_NEAR(c.x(), -ew.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEy_NegEw, CheckY) {
-  ASSERT_NEAR(c.y(), -ew.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEy_NegEw, CheckZ) {
-  ASSERT_NEAR(c.z(), -ew.z(), 1e-14);
-}
+TEST_F(RzeyFixture, CheckX) { ASSERT_NEAR(ey_prime.x(), ey.x(), 1e-14); }
+TEST_F(RzeyFixture, CheckY) { ASSERT_NEAR(ey_prime.y(), -ey.y(), 1e-14); }
+TEST_F(RzeyFixture, CheckZ) { ASSERT_NEAR(ey_prime.z(), ey.z(), 1e-14); }
 
-class QuaternionMultiplicationEyEz_Ex : public ::testing::Test {
+class RzezFixture : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEyEz_Ex()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ey * ez) {}
+  onogawa::Point3 ez;
+  onogawa::Quaternion Rz;
+  onogawa::Point3 ez_prime;
+
+  RzezFixture()
+      : ez(0.0, 0.0, 1.0), Rz(0.0, 0.0, 0.0, 1.0), ez_prime(Rz * ez) {}
 };
 
-TEST_F(QuaternionMultiplicationEyEz_Ex, CheckW) {
-  ASSERT_NEAR(c.w(), ex.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEz_Ex, CheckX) {
-  ASSERT_NEAR(c.x(), ex.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEz_Ex, CheckY) {
-  ASSERT_NEAR(c.y(), ex.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEyEz_Ex, CheckZ) {
-  ASSERT_NEAR(c.z(), ex.z(), 1e-14);
-}
-
-class QuaternionMultiplicationEzEw_Ez : public ::testing::Test {
-protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEzEw_Ez()
-      : ew(onogawa::Quaternion::ew()), ez(onogawa::Quaternion::ez()),
-        c(ew * ez) {}
-};
-
-TEST_F(QuaternionMultiplicationEzEw_Ez, CheckW) {
-  ASSERT_NEAR(c.w(), ez.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEw_Ez, CheckX) {
-  ASSERT_NEAR(c.x(), ez.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEw_Ez, CheckY) {
-  ASSERT_NEAR(c.y(), ez.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEw_Ez, CheckZ) {
-  ASSERT_NEAR(c.z(), ez.z(), 1e-14);
-}
-
-class QuaternionMultiplicationEzEx_Ey : public ::testing::Test {
-protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEzEx_Ey()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ez * ex) {}
-};
-
-TEST_F(QuaternionMultiplicationEzEx_Ey, CheckW) {
-  ASSERT_NEAR(c.w(), ey.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEx_Ey, CheckX) {
-  ASSERT_NEAR(c.x(), ey.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEx_Ey, CheckY) {
-  ASSERT_NEAR(c.y(), ey.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEx_Ey, CheckZ) {
-  ASSERT_NEAR(c.z(), ey.z(), 1e-14);
-}
-
-class QuaternionMultiplicationEzEy_NegEx : public ::testing::Test {
-protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEzEy_NegEx()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ez * ey) {}
-};
-
-TEST_F(QuaternionMultiplicationEzEy_NegEx, CheckW) {
-  ASSERT_NEAR(c.w(), -ex.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEy_NegEx, CheckX) {
-  ASSERT_NEAR(c.x(), -ex.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEy_NegEx, CheckY) {
-  ASSERT_NEAR(c.y(), -ex.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEy_NegEx, CheckZ) {
-  ASSERT_NEAR(c.z(), -ex.z(), 1e-14);
-}
-
-class QuaternionMultiplicationEzEz_NegEw : public ::testing::Test {
-protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
-  QuaternionMultiplicationEzEz_NegEw()
-      : ew(onogawa::Quaternion::ew()), ez(onogawa::Quaternion::ez()),
-        c(ez * ez) {}
-};
-
-TEST_F(QuaternionMultiplicationEzEz_NegEw, CheckW) {
-  ASSERT_NEAR(c.w(), -ew.w(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEz_NegEw, CheckX) {
-  ASSERT_NEAR(c.x(), -ew.x(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEz_NegEw, CheckY) {
-  ASSERT_NEAR(c.y(), -ew.y(), 1e-14);
-}
-TEST_F(QuaternionMultiplicationEzEz_NegEw, CheckZ) {
-  ASSERT_NEAR(c.z(), -ew.z(), 1e-14);
-}
+TEST_F(RzezFixture, CheckX) { ASSERT_NEAR(ez_prime.x(), ez.x(), 1e-14); }
+TEST_F(RzezFixture, CheckY) { ASSERT_NEAR(ez_prime.y(), ez.y(), 1e-14); }
+TEST_F(RzezFixture, CheckZ) { ASSERT_NEAR(ez_prime.z(), ez.z(), 1e-14); }

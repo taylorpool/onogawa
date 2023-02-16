@@ -10,7 +10,7 @@ include(FetchContent)
 FetchContent_Declare(
   Sabai
   GIT_REPOSITORY git@github.com:taylorpool/sabai.git
-  GIT_TAG v0.2.0
+  GIT_TAG constexpr
 )
 FetchContent_MakeAvailable(Sabai)
 
@@ -33,6 +33,7 @@ if(BUILD_TESTS)
 
   add_executable(test_onogawa
     test/test_onogawa.cpp
+    test/test_quaternion.cpp
   )
   target_link_libraries(test_onogawa
     onogawa

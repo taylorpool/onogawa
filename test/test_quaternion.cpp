@@ -7,7 +7,7 @@ protected:
   double x;
   double y;
   double z;
-  onogawa::Quaternion quat;
+  onogawa::Quaterniond quat;
   QuaternionFixture()
       : w(1.0), x(0.0), y(0.0), z(0.0), quat(1.0, 0.0, 0.0, 0.0) {}
 };
@@ -19,10 +19,10 @@ TEST_F(QuaternionFixture, CheckZ) { ASSERT_EQ(quat.z, z); }
 
 class QuaternionMultiplicationEwEw_Ew : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEwEw_Ew()
-      : ew(onogawa::Quaternion::ew()), c(ew * ew) {}
+      : ew(onogawa::Quaterniond::ew()), c(ew * ew) {}
 };
 
 TEST_F(QuaternionMultiplicationEwEw_Ew, CheckW) {
@@ -40,11 +40,11 @@ TEST_F(QuaternionMultiplicationEwEw_Ew, CheckZ) {
 
 class QuaternionMultiplicationEwEx_Ex : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ex;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond ex;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEwEx_Ex()
-      : ew(onogawa::Quaternion::ew()), ex(onogawa::Quaternion::ex()),
+      : ew(onogawa::Quaterniond::ew()), ex(onogawa::Quaterniond::ex()),
         c(ew * ex) {}
 };
 
@@ -63,11 +63,11 @@ TEST_F(QuaternionMultiplicationEwEx_Ex, CheckZ) {
 
 class QuaternionMultiplicationEwEy_Ey : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond ey;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEwEy_Ey()
-      : ew(onogawa::Quaternion::ew()), ey(onogawa::Quaternion::ey()),
+      : ew(onogawa::Quaterniond::ew()), ey(onogawa::Quaterniond::ey()),
         c(ew * ey) {}
 };
 
@@ -86,11 +86,11 @@ TEST_F(QuaternionMultiplicationEwEy_Ey, CheckZ) {
 
 class QuaternionMultiplicationEwEz_Ez : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond ez;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEwEz_Ez()
-      : ew(onogawa::Quaternion::ew()), ez(onogawa::Quaternion::ez()),
+      : ew(onogawa::Quaterniond::ew()), ez(onogawa::Quaterniond::ez()),
         c(ew * ez) {}
 };
 
@@ -109,11 +109,11 @@ TEST_F(QuaternionMultiplicationEwEz_Ez, CheckZ) {
 
 class QuaternionMultiplicationExEw_Ex : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ew;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ex;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationExEw_Ex()
-      : ex(onogawa::Quaternion::ex()), ew(onogawa::Quaternion::ew()),
+      : ex(onogawa::Quaterniond::ex()), ew(onogawa::Quaterniond::ew()),
         c(ex * ew) {}
 };
 
@@ -132,11 +132,11 @@ TEST_F(QuaternionMultiplicationExEw_Ex, CheckZ) {
 
 class QuaternionMultiplicationExEx_NegEw : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ex;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond ex;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationExEx_NegEw()
-      : ew(onogawa::Quaternion::ew()), ex(onogawa::Quaternion::ex()),
+      : ew(onogawa::Quaterniond::ew()), ex(onogawa::Quaterniond::ex()),
         c(ex * ex) {}
 };
 
@@ -155,13 +155,13 @@ TEST_F(QuaternionMultiplicationExEx_NegEw, CheckZ) {
 
 class QuaternionMultiplicationExEy_Ez : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ex;
+  onogawa::Quaterniond ey;
+  onogawa::Quaterniond ez;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationExEy_Ez()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ex * ey) {}
+      : ex(onogawa::Quaterniond::ex()), ey(onogawa::Quaterniond::ey()),
+        ez(onogawa::Quaterniond::ez()), c(ex * ey) {}
 };
 
 TEST_F(QuaternionMultiplicationExEy_Ez, CheckW) {
@@ -179,13 +179,13 @@ TEST_F(QuaternionMultiplicationExEy_Ez, CheckZ) {
 
 class QuaternionMultiplicationExEz_NegEy : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ex;
+  onogawa::Quaterniond ey;
+  onogawa::Quaterniond ez;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationExEz_NegEy()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ex * ez) {}
+      : ex(onogawa::Quaterniond::ex()), ey(onogawa::Quaterniond::ey()),
+        ez(onogawa::Quaterniond::ez()), c(ex * ez) {}
 };
 
 TEST_F(QuaternionMultiplicationExEz_NegEy, CheckW) {
@@ -203,11 +203,11 @@ TEST_F(QuaternionMultiplicationExEz_NegEy, CheckZ) {
 
 class QuaternionMultiplicationEyEw_Ey : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond ey;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEyEw_Ey()
-      : ew(onogawa::Quaternion::ew()), ey(onogawa::Quaternion::ey()),
+      : ew(onogawa::Quaterniond::ew()), ey(onogawa::Quaterniond::ey()),
         c(ey * ew) {}
 };
 
@@ -226,13 +226,13 @@ TEST_F(QuaternionMultiplicationEyEw_Ey, CheckZ) {
 
 class QuaternionMultiplicationEyEx_NegEz : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ex;
+  onogawa::Quaterniond ey;
+  onogawa::Quaterniond ez;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEyEx_NegEz()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ey * ex) {}
+      : ex(onogawa::Quaterniond::ex()), ey(onogawa::Quaterniond::ey()),
+        ez(onogawa::Quaterniond::ez()), c(ey * ex) {}
 };
 
 TEST_F(QuaternionMultiplicationEyEx_NegEz, CheckW) {
@@ -250,11 +250,11 @@ TEST_F(QuaternionMultiplicationEyEx_NegEz, CheckZ) {
 
 class QuaternionMultiplicationEyEy_NegEw : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond ey;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEyEy_NegEw()
-      : ew(onogawa::Quaternion::ew()), ey(onogawa::Quaternion::ey()),
+      : ew(onogawa::Quaterniond::ew()), ey(onogawa::Quaterniond::ey()),
         c(ey * ey) {}
 };
 
@@ -273,13 +273,13 @@ TEST_F(QuaternionMultiplicationEyEy_NegEw, CheckZ) {
 
 class QuaternionMultiplicationEyEz_Ex : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ex;
+  onogawa::Quaterniond ey;
+  onogawa::Quaterniond ez;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEyEz_Ex()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ey * ez) {}
+      : ex(onogawa::Quaterniond::ex()), ey(onogawa::Quaterniond::ey()),
+        ez(onogawa::Quaterniond::ez()), c(ey * ez) {}
 };
 
 TEST_F(QuaternionMultiplicationEyEz_Ex, CheckW) {
@@ -297,11 +297,11 @@ TEST_F(QuaternionMultiplicationEyEz_Ex, CheckZ) {
 
 class QuaternionMultiplicationEzEw_Ez : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond ez;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEzEw_Ez()
-      : ew(onogawa::Quaternion::ew()), ez(onogawa::Quaternion::ez()),
+      : ew(onogawa::Quaterniond::ew()), ez(onogawa::Quaterniond::ez()),
         c(ew * ez) {}
 };
 
@@ -320,13 +320,13 @@ TEST_F(QuaternionMultiplicationEzEw_Ez, CheckZ) {
 
 class QuaternionMultiplicationEzEx_Ey : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ex;
+  onogawa::Quaterniond ey;
+  onogawa::Quaterniond ez;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEzEx_Ey()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ez * ex) {}
+      : ex(onogawa::Quaterniond::ex()), ey(onogawa::Quaterniond::ey()),
+        ez(onogawa::Quaterniond::ez()), c(ez * ex) {}
 };
 
 TEST_F(QuaternionMultiplicationEzEx_Ey, CheckW) {
@@ -344,13 +344,13 @@ TEST_F(QuaternionMultiplicationEzEx_Ey, CheckZ) {
 
 class QuaternionMultiplicationEzEy_NegEx : public ::testing::Test {
 protected:
-  onogawa::Quaternion ex;
-  onogawa::Quaternion ey;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ex;
+  onogawa::Quaterniond ey;
+  onogawa::Quaterniond ez;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEzEy_NegEx()
-      : ex(onogawa::Quaternion::ex()), ey(onogawa::Quaternion::ey()),
-        ez(onogawa::Quaternion::ez()), c(ez * ey) {}
+      : ex(onogawa::Quaterniond::ex()), ey(onogawa::Quaterniond::ey()),
+        ez(onogawa::Quaterniond::ez()), c(ez * ey) {}
 };
 
 TEST_F(QuaternionMultiplicationEzEy_NegEx, CheckW) {
@@ -368,11 +368,11 @@ TEST_F(QuaternionMultiplicationEzEy_NegEx, CheckZ) {
 
 class QuaternionMultiplicationEzEz_NegEw : public ::testing::Test {
 protected:
-  onogawa::Quaternion ew;
-  onogawa::Quaternion ez;
-  onogawa::Quaternion c;
+  onogawa::Quaterniond ew;
+  onogawa::Quaterniond ez;
+  onogawa::Quaterniond c;
   QuaternionMultiplicationEzEz_NegEw()
-      : ew(onogawa::Quaternion::ew()), ez(onogawa::Quaternion::ez()),
+      : ew(onogawa::Quaterniond::ew()), ez(onogawa::Quaterniond::ez()),
         c(ez * ez) {}
 };
 

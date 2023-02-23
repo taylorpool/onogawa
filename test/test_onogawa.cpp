@@ -5,7 +5,7 @@ class CompassFixture : public ::testing::Test {
 protected:
   double x;
   double y;
-  onogawa::Compass compass;
+  onogawa::Compassd compass;
 
   CompassFixture() : x(1.0), y(0.0), compass(x, y) {}
 };
@@ -15,12 +15,12 @@ TEST_F(CompassFixture, CheckY) { ASSERT_EQ(compass.y, y); }
 
 class CompassXCompassY : public ::testing::Test {
 protected:
-  onogawa::Compass a;
-  onogawa::Compass b;
-  onogawa::Compass c;
+  onogawa::Compassd a;
+  onogawa::Compassd b;
+  onogawa::Compassd c;
 
   CompassXCompassY()
-      : a(onogawa::Compass::ex()), b(onogawa::Compass::ey()), c(a * b) {}
+      : a(onogawa::Compassd::ex()), b(onogawa::Compassd::ey()), c(a * b) {}
 };
 
 TEST_F(CompassXCompassY, CheckX) { ASSERT_NEAR(c.x, b.x, 1e-14); }
@@ -28,11 +28,11 @@ TEST_F(CompassXCompassY, CheckY) { ASSERT_NEAR(c.y, b.y, 1e-14); }
 
 class CompassNegXCompassY : public ::testing::Test {
 protected:
-  onogawa::Compass a;
-  onogawa::Compass b;
-  onogawa::Compass c;
+  onogawa::Compassd a;
+  onogawa::Compassd b;
+  onogawa::Compassd c;
 
-  CompassNegXCompassY() : a(-1.0, 0.0), b(onogawa::Compass::ey()), c(a * b) {}
+  CompassNegXCompassY() : a(-1.0, 0.0), b(onogawa::Compassd::ey()), c(a * b) {}
 };
 
 TEST_F(CompassNegXCompassY, CheckX) { ASSERT_NEAR(c.x, b.x, 1e-14); }
@@ -40,12 +40,12 @@ TEST_F(CompassNegXCompassY, CheckY) { ASSERT_NEAR(c.y, -b.y, 1e-14); }
 
 class CompassXPointX : public ::testing::Test {
 protected:
-  onogawa::Compass c;
-  onogawa::Point2 p;
-  onogawa::Point2 result;
+  onogawa::Compassd c;
+  onogawa::Point2d p;
+  onogawa::Point2d result;
 
   CompassXPointX()
-      : c(onogawa::Compass::ex()), p(onogawa::Point2::ex()), result(c * p) {}
+      : c(onogawa::Compassd::ex()), p(onogawa::Point2d::ex()), result(c * p) {}
 };
 
 TEST_F(CompassXPointX, CheckX) { ASSERT_NEAR(result.x, p.x, 1e-14); }
@@ -57,7 +57,7 @@ protected:
   double y;
   double new_x;
   double new_y;
-  onogawa::Point2 point;
+  onogawa::Point2d point;
   Point2Fixture() : x(0.0), y(1.0), new_x(2.0), new_y(3.0), point(x, y) {}
 };
 
@@ -74,12 +74,12 @@ TEST_F(Point2Fixture, UpdateY) {
 
 class Point2PlusPoint2 : public ::testing::Test {
 protected:
-  onogawa::Point2 a;
-  onogawa::Point2 b;
-  onogawa::Point2 c;
+  onogawa::Point2d a;
+  onogawa::Point2d b;
+  onogawa::Point2d c;
 
   Point2PlusPoint2()
-      : a(onogawa::Point2::ex()), b(onogawa::Point2::ey()), c(a + b) {}
+      : a(onogawa::Point2d::ex()), b(onogawa::Point2d::ey()), c(a + b) {}
 };
 
 TEST_F(Point2PlusPoint2, CheckX) { ASSERT_NEAR(c.x, a.x + b.x, 1e-14); }
@@ -94,7 +94,7 @@ protected:
   double new_y;
   double new_z;
 
-  onogawa::Point3 point;
+  onogawa::Point3d point;
 
   Point3Fixture()
       : x(1.0), y(2.0), z(3.0), new_x(4.0), new_y(5.0), new_z(6.0),
@@ -119,12 +119,12 @@ TEST_F(Point3Fixture, UpdateZ) {
 
 class RwexFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ex;
-  onogawa::Quaternion Rw;
-  onogawa::Point3 ex_prime;
+  onogawa::Point3d ex;
+  onogawa::Quaterniond Rw;
+  onogawa::Point3d ex_prime;
 
   RwexFixture()
-      : ex(onogawa::Point3::ex()), Rw(onogawa::Quaternion::ew()),
+      : ex(onogawa::Point3d::ex()), Rw(onogawa::Quaterniond::ew()),
         ex_prime(Rw * ex) {}
 };
 
@@ -134,12 +134,12 @@ TEST_F(RwexFixture, CheckZ) { ASSERT_NEAR(ex_prime.z, ex.z, 1e-14); }
 
 class RweyFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ey;
-  onogawa::Quaternion Rw;
-  onogawa::Point3 ey_prime;
+  onogawa::Point3d ey;
+  onogawa::Quaterniond Rw;
+  onogawa::Point3d ey_prime;
 
   RweyFixture()
-      : ey(onogawa::Point3::ey()), Rw(onogawa::Quaternion::ew()),
+      : ey(onogawa::Point3d::ey()), Rw(onogawa::Quaterniond::ew()),
         ey_prime(Rw * ey) {}
 };
 
@@ -149,12 +149,12 @@ TEST_F(RweyFixture, CheckZ) { ASSERT_NEAR(ey_prime.z, ey.z, 1e-14); }
 
 class RwezFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ez;
-  onogawa::Quaternion Rw;
-  onogawa::Point3 ez_prime;
+  onogawa::Point3d ez;
+  onogawa::Quaterniond Rw;
+  onogawa::Point3d ez_prime;
 
   RwezFixture()
-      : ez(onogawa::Point3::ez()), Rw(onogawa::Quaternion::ew()),
+      : ez(onogawa::Point3d::ez()), Rw(onogawa::Quaterniond::ew()),
         ez_prime(Rw * ez) {}
 };
 
@@ -164,12 +164,12 @@ TEST_F(RwezFixture, CheckZ) { ASSERT_NEAR(ez_prime.z, ez.z, 1e-14); }
 
 class RxexFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ex;
-  onogawa::Quaternion Rx;
-  onogawa::Point3 ex_prime;
+  onogawa::Point3d ex;
+  onogawa::Quaterniond Rx;
+  onogawa::Point3d ex_prime;
 
   RxexFixture()
-      : ex(onogawa::Point3::ex()), Rx(onogawa::Quaternion::ex()),
+      : ex(onogawa::Point3d::ex()), Rx(onogawa::Quaterniond::ex()),
         ex_prime(Rx * ex) {}
 };
 
@@ -179,12 +179,12 @@ TEST_F(RxexFixture, CheckZ) { ASSERT_NEAR(ex_prime.z, ex.z, 1e-14); }
 
 class RxeyFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ey;
-  onogawa::Quaternion Rx;
-  onogawa::Point3 ey_prime;
+  onogawa::Point3d ey;
+  onogawa::Quaterniond Rx;
+  onogawa::Point3d ey_prime;
 
   RxeyFixture()
-      : ey(onogawa::Point3::ey()), Rx(onogawa::Quaternion::ex()),
+      : ey(onogawa::Point3d::ey()), Rx(onogawa::Quaterniond::ex()),
         ey_prime(Rx * ey) {}
 };
 
@@ -194,12 +194,12 @@ TEST_F(RxeyFixture, CheckZ) { ASSERT_NEAR(ey_prime.z, ey.z, 1e-14); }
 
 class RxezFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ez;
-  onogawa::Quaternion Rx;
-  onogawa::Point3 ez_prime;
+  onogawa::Point3d ez;
+  onogawa::Quaterniond Rx;
+  onogawa::Point3d ez_prime;
 
   RxezFixture()
-      : ez(onogawa::Point3::ez()), Rx(onogawa::Quaternion::ex()),
+      : ez(onogawa::Point3d::ez()), Rx(onogawa::Quaterniond::ex()),
         ez_prime(Rx * ez) {}
 };
 
@@ -209,12 +209,12 @@ TEST_F(RxezFixture, CheckZ) { ASSERT_NEAR(ez_prime.z, -ez.z, 1e-14); }
 
 class RyexFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ex;
-  onogawa::Quaternion Ry;
-  onogawa::Point3 ex_prime;
+  onogawa::Point3d ex;
+  onogawa::Quaterniond Ry;
+  onogawa::Point3d ex_prime;
 
   RyexFixture()
-      : ex(onogawa::Point3::ex()), Ry(onogawa::Quaternion::ey()),
+      : ex(onogawa::Point3d::ex()), Ry(onogawa::Quaterniond::ey()),
         ex_prime(Ry * ex) {}
 };
 
@@ -224,12 +224,12 @@ TEST_F(RyexFixture, CheckZ) { ASSERT_NEAR(ex_prime.z, ex.z, 1e-14); }
 
 class RyeyFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ey;
-  onogawa::Quaternion Ry;
-  onogawa::Point3 ey_prime;
+  onogawa::Point3d ey;
+  onogawa::Quaterniond Ry;
+  onogawa::Point3d ey_prime;
 
   RyeyFixture()
-      : ey(onogawa::Point3::ey()), Ry(onogawa::Quaternion::ey()),
+      : ey(onogawa::Point3d::ey()), Ry(onogawa::Quaterniond::ey()),
         ey_prime(Ry * ey) {}
 };
 
@@ -239,12 +239,12 @@ TEST_F(RyeyFixture, CheckZ) { ASSERT_NEAR(ey_prime.z, ey.z, 1e-14); }
 
 class RyezFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ez;
-  onogawa::Quaternion Ry;
-  onogawa::Point3 ez_prime;
+  onogawa::Point3d ez;
+  onogawa::Quaterniond Ry;
+  onogawa::Point3d ez_prime;
 
   RyezFixture()
-      : ez(onogawa::Point3::ez()), Ry(onogawa::Quaternion::ey()),
+      : ez(onogawa::Point3d::ez()), Ry(onogawa::Quaterniond::ey()),
         ez_prime(Ry * ez) {}
 };
 
@@ -254,12 +254,12 @@ TEST_F(RyezFixture, CheckZ) { ASSERT_NEAR(ez_prime.z, -ez.z, 1e-14); }
 
 class RzexFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ex;
-  onogawa::Quaternion Rz;
-  onogawa::Point3 ex_prime;
+  onogawa::Point3d ex;
+  onogawa::Quaterniond Rz;
+  onogawa::Point3d ex_prime;
 
   RzexFixture()
-      : ex(onogawa::Point3::ex()), Rz(onogawa::Quaternion::ez()),
+      : ex(onogawa::Point3d::ex()), Rz(onogawa::Quaterniond::ez()),
         ex_prime(Rz * ex) {}
 };
 
@@ -269,12 +269,12 @@ TEST_F(RzexFixture, CheckZ) { ASSERT_NEAR(ex_prime.z, ex.z, 1e-14); }
 
 class RzeyFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ey;
-  onogawa::Quaternion Rz;
-  onogawa::Point3 ey_prime;
+  onogawa::Point3d ey;
+  onogawa::Quaterniond Rz;
+  onogawa::Point3d ey_prime;
 
   RzeyFixture()
-      : ey(onogawa::Point3::ey()), Rz(onogawa::Quaternion::ez()),
+      : ey(onogawa::Point3d::ey()), Rz(onogawa::Quaterniond::ez()),
         ey_prime(Rz * ey) {}
 };
 
@@ -284,12 +284,12 @@ TEST_F(RzeyFixture, CheckZ) { ASSERT_NEAR(ey_prime.z, ey.z, 1e-14); }
 
 class RzezFixture : public ::testing::Test {
 protected:
-  onogawa::Point3 ez;
-  onogawa::Quaternion Rz;
-  onogawa::Point3 ez_prime;
+  onogawa::Point3d ez;
+  onogawa::Quaterniond Rz;
+  onogawa::Point3d ez_prime;
 
   RzezFixture()
-      : ez(onogawa::Point3::ez()), Rz(onogawa::Quaternion::ez()),
+      : ez(onogawa::Point3d::ez()), Rz(onogawa::Quaterniond::ez()),
         ez_prime(Rz * ez) {}
 };
 
@@ -299,13 +299,13 @@ TEST_F(RzezFixture, CheckZ) { ASSERT_NEAR(ez_prime.z, ez.z, 1e-14); }
 
 class Pose3Fixture1 : public ::testing::Test {
 protected:
-  onogawa::Pose3 a;
-  onogawa::Pose3 b;
-  onogawa::Pose3 c;
+  onogawa::Pose3d a;
+  onogawa::Pose3d b;
+  onogawa::Pose3d c;
 
   Pose3Fixture1()
-      : a(onogawa::Quaternion::ew(), onogawa::Point3::ex()),
-        b(onogawa::Quaternion::ew(), onogawa::Point3::ex()), c(a * b) {}
+      : a(onogawa::Quaterniond::ew(), onogawa::Point3d::ex()),
+        b(onogawa::Quaterniond::ew(), onogawa::Point3d::ex()), c(a * b) {}
 };
 
 TEST_F(Pose3Fixture1, CheckX) { ASSERT_NEAR(c.position.x, 2.0, 1e-14); }
@@ -318,11 +318,11 @@ TEST_F(Pose3Fixture1, CheckQz) { ASSERT_NEAR(c.orientation.z, 0.0, 1e-14); }
 
 class Pose3Fixture2 : public ::testing::Test {
 protected:
-  onogawa::Pose3 a;
-  onogawa::Pose3 b;
-  onogawa::Pose3 c;
+  onogawa::Pose3d a;
+  onogawa::Pose3d b;
+  onogawa::Pose3d c;
 
   Pose3Fixture2()
-      : a(onogawa::Quaternion::ew(), onogawa::Point3::ez()),
-        b(onogawa::Quaternion::ew(), onogawa::Point3::ex()), c(a * b) {}
+      : a(onogawa::Quaterniond::ew(), onogawa::Point3d::ez()),
+        b(onogawa::Quaterniond::ew(), onogawa::Point3d::ex()), c(a * b) {}
 };

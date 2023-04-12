@@ -1,5 +1,7 @@
 #pragma once
 
+#include "sabai/sabai.hpp"
+
 namespace onogawa {
 
 template <typename T> struct Quaternion {
@@ -27,4 +29,22 @@ constexpr Quaternion<T> operator*(const Quaternion<T> &a,
 
 using Quaterniond = Quaternion<double>;
 
+template <typename T>
+constexpr Quaternion<T> Exp(const sabai::StaticVector<T, 3> &omega) {
+  const auto theta = sabai::norm(omega);
+  const auto omegaNormalized = omega / theta;
+  const auto thetaHalf = theta / 2.0;
+  const auto sinThetaHalf = std::sin(thetaHalf);
+  return Quaternion<T>(std::cos(thetaHalf), sinThetaHalf * omegaNormalized(0),
+                       sinThetaHalf * omegaNormalized(1),
+                       sinThetaHalf * omegaNormalized(2));
+}
+
+template <typename T>
+constexpr sabai::StaticVector<T, 3> Log(const Quaternion<T> &quaternion) {
+  const auto thetaHalf = std::acos(quaternion.w);
+  const auto sinThetaHalf = std::sin(thetaHalf);
+  const auto temp = 2.0 * thetaHalf / sinThetaHalf;
+  return {temp * quaternion.x, temp * quaternion.y, temp * quaternion.z};
+}
 } // namespace onogawa

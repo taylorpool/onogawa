@@ -388,3 +388,12 @@ TEST_F(QuaternionMultiplicationEzEz_NegEw, CheckY) {
 TEST_F(QuaternionMultiplicationEzEz_NegEw, CheckZ) {
   ASSERT_NEAR(c.z, -ew.z, 1e-14);
 }
+
+TEST(Quaternion, Exponential) {
+  sabai::StaticVectord<3> omega({2 * M_PI, 0, 0});
+  const auto q = onogawa::Exp(omega);
+  std::cout << q.w << "," << q.x << "," << q.y << "," << q.z << std::endl;
+  const auto w = onogawa::Log(q);
+  std::cout << w(0) << "," << w(1) << "," << w(2) << std::endl;
+  ASSERT_NEAR(q.w, 1.0, 1e-14);
+}

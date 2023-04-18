@@ -389,11 +389,26 @@ TEST_F(QuaternionMultiplicationEzEz_NegEw, CheckZ) {
   ASSERT_NEAR(c.z, -ew.z, 1e-14);
 }
 
-TEST(Quaternion, Exponential) {
-  sabai::StaticVectord<3> omega({2 * M_PI, 0, 0});
-  const auto q = onogawa::Exp(omega);
-  std::cout << q.w << "," << q.x << "," << q.y << "," << q.z << std::endl;
-  const auto w = onogawa::Log(q);
-  std::cout << w(0) << "," << w(1) << "," << w(2) << std::endl;
-  ASSERT_NEAR(q.w, 1.0, 1e-14);
+class QuaternionExponentialFixture : public ::testing::Test {
+protected:
+  const sabai::StaticVectord<3> omega;
+  const onogawa::Quaterniond orientation;
+  QuaternionExponentialFixture()
+      : omega({M_PI, 0.0, 0.0}), orientation(onogawa::Exp(omega)) {}
+};
+
+TEST_F(QuaternionExponentialFixture, wIs0) {
+  ASSERT_NEAR(orientation.w, 0.0, 1e-14);
+}
+
+TEST_F(QuaternionExponentialFixture, xIs1) {
+  ASSERT_NEAR(orientation.x, 1.0, 1e-14);
+}
+
+TEST_F(QuaternionExponentialFixture, yIs0) {
+  ASSERT_NEAR(orientation.y, 0.0, 1e-14);
+}
+
+TEST_F(QuaternionExponentialFixture, zIs0) {
+  ASSERT_NEAR(orientation.z, 0.0, 1e-14);
 }
